@@ -1,4 +1,4 @@
-# LinRey Afric Car Rentals – Website Prototype
+# LynRey Afric Car Rentals – Website Prototype
 
 Open `index.html` in a browser to preview the website.
 
