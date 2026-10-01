@@ -63,7 +63,7 @@ exports.handler = async (event) => {
         PartyB: shortcode,
         PhoneNumber: phone,
         CallBackURL: process.env.MPESA_CALLBACK_URL, // e.g. https://yoursite.netlify.app/.netlify/functions/mpesa-callback
-        AccountReference: `LinRey-${booking.id.slice(0, 8)}`,
+        AccountReference: `LynRey-${booking.id.slice(0, 8)}`,
         TransactionDesc: `${booking.car} rental`,
       }),
     });
