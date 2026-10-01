@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="LinRey Afric Car Rentals - premium self-drive car rental in Nairobi." />
+  <title>LinRey Afric Car Rentals | Self-Drive Nairobi</title>
+  <link rel="canonical" href="https://lynreyafricarrentals.netlify.app/" />
+
+  <!-- Open Graph - controls how the link looks when shared on WhatsApp, Facebook, etc. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="LinRey Afric Car Rentals | Self-Drive Nairobi" />
+  <meta property="og:description" content="Premium self-drive car rentals in Nairobi - Mazda CX-5, Toyota Prado TX and TXL. Book online, pay by M-Pesa." />
+  <meta property="og:image" content="https://lynreyafricarrentals.netlify.app/assets/logo.jpg" />
+  <meta property="og:url" content="https://lynreyafricarrentals.netlify.app/" />
+  <meta property="og:locale" content="en_KE" />
+
+  <!-- Twitter/X card - same idea, different platform -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="LinRey Afric Car Rentals | Self-Drive Nairobi" />
+  <meta name="twitter:description" content="Premium self-drive car rentals in Nairobi. Book online, pay by M-Pesa." />
+  <meta name="twitter:image" content="https://lynreyafricarrentals.netlify.app/assets/logo.jpg" />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Structured data - tells Google exactly what kind of business this is,
+       which can unlock rich results (address, phone, map) in search. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AutoRental",
+    "name": "LinRey Afric Car Rentals",
+    "image": "https://lynreyafricarrentals.netlify.app/assets/logo.jpg",
+    "url": "https://lynreyafricarrentals.netlify.app/",
+    "telephone": "+254743113313",
+    "email": "lynnafriclimited@gmail.com",
+    "priceRange": "Contact for pricing",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "2nd Avenue Garden",
+      "addressLocality": "Nairobi",
+      "addressCountry": "KE"
+    },
+    "areaServed": "Nairobi, Kenya"
+  }
+  </script>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="#home"><img src="assets/logo.jpg" alt="LinRey Afric Car Rentals logo"><span><b>LinRey Afric</b><small>CAR RENTALS</small></span></a>
+  <button class="menu-btn" aria-label="Open menu"><span class="menu-bars"></span></button>
+  <nav><a href="#fleet">Our Fleet</a><a href="#how">How It Works</a><a href="#requirements">Requirements</a><a href="#contact">Contact</a><a class="nav-book" href="#booking">Book Now</a></nav>
+</header>
+
+<main>
+<section id="home" class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="eyebrow">Self-drive rentals, based in Nairobi</p>
+    <h1>Drive Africa<br><span>Your Way.</span></h1>
+    <p class="hero-copy">Comfortable, reliable vehicles for business, adventure and every journey in between.</p>
+    <div class="hero-actions"><a class="btn primary" href="#booking">Book Your Car</a><a class="btn ghost" href="#fleet">Explore Fleet</a></div>
+  </div>
+</section>
+
+<section id="booking" class="booking-section">
+  <div class="section-heading"><p class="eyebrow">Book online</p><h2>Find your perfect ride</h2><p>Choose your vehicle and dates. Availability is checked automatically.</p></div>
+  <form id="bookingForm" class="booking-form">
+    <label>Choose a car<select id="car" required><option value="">Select vehicle</option></select></label>
+    <label>Pick-up date<input id="pickup" type="date" required></label>
+    <label>Return date<input id="return" type="date" required></label>
+    <button class="btn primary" type="submit">Check & Continue</button>
+  </form>
+  <div id="bookingResult" class="booking-result" aria-live="polite"></div>
+</section>
+
+<section id="fleet" class="section fleet">
+ <div class="section-heading"><p class="eyebrow">Our fleet</p><h2>Choose your journey</h2></div>
+ <div class="car-grid" id="carGrid">
+  <p style="padding:20px;color:var(--muted,#777)">Loading fleet...</p>
+ </div>
+</section>
+
+<section id="how" class="dark-section"><div class="section-heading light"><p class="eyebrow">The process</p><h2>How it works</h2></div><div class="steps"><div><b>01</b><h3>Choose a car</h3><p>Browse our reliable self-drive fleet.</p></div><div><b>02</b><h3>Select dates</h3><p>Our system checks availability instantly.</p></div><div><b>03</b><h3>Pay via M-Pesa</h3><p>Complete your full payment securely.</p></div><div><b>04</b><h3>Pick up & drive</h3><p>Bring your valid driving licence and enjoy the journey.</p></div></div></section>
+
+<section id="requirements" class="section requirements"><div><p class="eyebrow">Before you drive</p><h2>Rental requirements</h2><p class="lead">We keep the process straightforward so you can get on the road with confidence.</p></div><div class="requirement-list"><div>Valid driving licence required</div><div>All vehicles are self-drive</div><div>Full payment is required to confirm an online booking</div><div>Late return will be charged at one full day's rental price</div></div></section>
+
+<section id="contact" class="contact"><div><p class="eyebrow">Get in touch</p><h2>Ready for the road?</h2><p>Book online or contact LinRey Afric Car Rentals directly.</p></div><div class="contact-cards"><a href="tel:+254743113313"><span><b>Call us</b>+254 743 113 313</span></a><a href="mailto:lynnafriclimited@gmail.com"><span><b>Email us</b>lynnafriclimited@gmail.com</span></a><a href="https://www.google.com/maps/search/?api=1&query=LinRey+Afric+Car+Rentals+2nd+Avenue+Garden+Nairobi" target="_blank" rel="noopener"><span><b>Visit us</b>2nd Avenue Garden, Nairobi</span></a></div></section>
+</main>
+<footer><span>© <span id="year"></span> LinRey Afric Car Rentals. All rights reserved.</span><div class="footer-links"><a href="https://wa.me/254743113313" target="_blank" rel="noopener">WhatsApp Us</a><a href="https://instagram.com/lynnafriclimited" target="_blank" rel="noopener">Instagram</a><a href="https://facebook.com/profile.php?id=61594591067086" target="_blank" rel="noopener">Facebook</a></div></footer>
+
+<div id="modal" class="modal" aria-hidden="true"><div class="modal-box"><button id="closeModal" class="close">×</button><div id="modalContent"></div></div></div>
+<script src="script.js"></script>
+</body>
+</html>
