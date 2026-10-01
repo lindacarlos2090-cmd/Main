@@ -15,59 +15,76 @@ window.__showCarMedia = function(mainId, thumbEl, src, isVideo){
   thumbEl.classList.add('active');
 };
 
+// Shown when the fleet database can't be reached, so the cars and their photos
+// still appear. Mirrors supabase/fleet-update.sql.
+const FALLBACK_FLEET = [
+  { id: 'cx5-black', name: 'Mazda CX-5 (Black)', daily_rate: 7000, seats: 5, transmission: 'Automatic', fuel: 'Petrol',
+    photos: ['assets/cx5-black-1.jpg', 'assets/cx5-black-2.jpg', 'assets/cx5-black-3.jpg'], video_url: 'assets/cx5-black-video.mp4' },
+  { id: 'cx5-white', name: 'Mazda CX-5 (White)', daily_rate: 7000, seats: 5, transmission: 'Automatic', fuel: 'Petrol',
+    photos: ['assets/cx5-white-1.jpg', 'assets/cx5-white-2.jpg', 'assets/cx5-white-3.jpg'] },
+  { id: 'prado-tx', name: 'Toyota Prado TX', daily_rate: 12000, seats: 5, transmission: 'Automatic', fuel: 'Petrol',
+    photos: ['assets/tx.jpg'] },
+];
+
+// photos may arrive as an array or as a JSON string, depending on how the row was saved.
+function carPhotos(c){
+  let list = c.photos;
+  if(typeof list === 'string'){ try{ list = JSON.parse(list); }catch(e){ list = [list]; } }
+  list = (Array.isArray(list) ? list : []).filter(Boolean);
+  if(!list.length && c.photo_url) list = [c.photo_url];
+  return list.length ? list : ['assets/logo.jpg'];
+}
+
 function days(a,b){return Math.max(1,Math.ceil((new Date(b)-new Date(a))/86400000))}
 function format(n){return 'KSh '+n.toLocaleString()}
 
 async function loadFleet(){
   const grid = document.querySelector('#carGrid');
+  let fleet = [];
   try{
     const res = await fetch(`${FN}/get-fleet`);
     const data = await res.json();
-    const fleet = data.fleet || [];
-
-    if(!fleet.length){
-      grid.innerHTML = '<p>No vehicles available right now — please check back soon.</p>';
-      return;
-    }
-
-    rates = {};
-    car.innerHTML = '<option value="">Select vehicle</option>';
-    grid.innerHTML = '';
-
-    fleet.forEach(c => {
-      rates[c.name] = c.daily_rate;
-      car.innerHTML += `<option value="${c.name}">${c.name}</option>`;
-
-      const photos = (c.photos && c.photos.length) ? c.photos : [c.photo_url || 'assets/logo.jpg'];
-      const mainId = `main-${c.id}`;
-      const thumbs = photos.map((p, i) =>
-        `<img src="${p}" class="thumb${i===0?' active':''}" data-src="${p}" onclick="window.__showCarMedia('${mainId}', this, '${p}', false)">`
-      ).join('');
-      const videoThumb = c.video_url
-        ? `<div class="thumb video-thumb" onclick="window.__showCarMedia('${mainId}', this, '${c.video_url}', true)">▶</div>`
-        : '';
-
-      grid.innerHTML += `
-        <article class="car-card">
-          <div class="car-media">
-            <img id="${mainId}" src="${photos[0]}" alt="${c.name}">
-          </div>
-          <div class="thumb-row">${thumbs}${videoThumb}</div>
-          <div class="car-info">
-            <h3>${c.name}</h3>
-            <div class="specs"><span>${c.seats} seats</span><span>${c.transmission}</span><span>${c.fuel}</span></div>
-            <button class="btn primary select-car" data-car="${c.name}">Book This Car</button>
-          </div>
-        </article>`;
-    });
-
-    document.querySelectorAll('.select-car').forEach(btn=>btn.onclick=()=>{
-      car.value=btn.dataset.car;
-      document.querySelector('#booking').scrollIntoView({behavior:'smooth'});
-    });
+    fleet = data.fleet || [];
   }catch(err){
-    grid.innerHTML = '<p>Could not load the fleet right now. Please refresh the page.</p>';
+    console.warn('Fleet could not be loaded, showing built-in list instead', err);
   }
+  if(!fleet.length) fleet = FALLBACK_FLEET;
+
+  rates = {};
+  car.innerHTML = '<option value="">Select vehicle</option>';
+  grid.innerHTML = '';
+
+  fleet.forEach(c => {
+    rates[c.name] = c.daily_rate;
+    car.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+
+    const photos = carPhotos(c);
+    const mainId = `main-${c.id}`;
+    const thumbs = photos.map((p, i) =>
+      `<img src="${p}" class="thumb${i===0?' active':''}" data-src="${p}" onclick="window.__showCarMedia('${mainId}', this, '${p}', false)">`
+    ).join('');
+    const videoThumb = c.video_url
+      ? `<div class="thumb video-thumb" onclick="window.__showCarMedia('${mainId}', this, '${c.video_url}', true)">▶</div>`
+      : '';
+
+    grid.innerHTML += `
+      <article class="car-card">
+        <div class="car-media">
+          <img id="${mainId}" src="${photos[0]}" alt="${c.name}" onerror="this.onerror=null;this.src='assets/logo.jpg'">
+        </div>
+        <div class="thumb-row">${thumbs}${videoThumb}</div>
+        <div class="car-info">
+          <h3>${c.name}</h3>
+          <div class="specs"><span>${c.seats} seats</span><span>${c.transmission}</span><span>${c.fuel}</span></div>
+          <button class="btn primary select-car" data-car="${c.name}">Book This Car</button>
+        </div>
+      </article>`;
+  });
+
+  document.querySelectorAll('.select-car').forEach(btn=>btn.onclick=()=>{
+    car.value=btn.dataset.car;
+    document.querySelector('#booking').scrollIntoView({behavior:'smooth'});
+  });
 }
 loadFleet();
 
