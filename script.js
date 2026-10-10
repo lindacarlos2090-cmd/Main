@@ -29,9 +29,9 @@ window.__stepCarMedia = function(mainId, step){ window.__showCarMedia(mainId, (g
 // still appear. Mirrors supabase/fleet-update.sql.
 const FALLBACK_FLEET = [
   { id: 'cx5-black', name: 'Mazda CX-5 (Black)', daily_rate: 7000, seats: 5, transmission: 'Automatic', fuel: 'Petrol',
-    photos: ['assets/cx5-black-1.jpg', 'assets/cx5-black-2.jpg', 'assets/cx5-black-3.jpg'], video_url: 'assets/cx5-black-video.mp4' },
+    photos: ['assets/cx5-black-1.jpg', 'assets/cx5-black-2.jpg', 'assets/cx5-black-3.jpg', 'assets/cx5-black-4.jpg', 'assets/cx5-black-5.jpg', 'assets/cx5-black-6.jpg', 'assets/cx5-black-7.jpg', 'assets/cx5-black-8.jpg', 'assets/cx5-black-9.jpg', 'assets/cx5-black-10.jpg', 'assets/cx5-black-11.jpg', 'assets/cx5-black-12.jpg', 'assets/cx5-black-13.jpg'], video_url: 'assets/cx5-black-video.mp4' },
   { id: 'cx5-white', name: 'Mazda CX-5 (White)', daily_rate: 7000, seats: 5, transmission: 'Automatic', fuel: 'Petrol',
-    photos: ['assets/cx5-white-1.jpg', 'assets/cx5-white-2.jpg', 'assets/cx5-white-3.jpg'] },
+    photos: ['assets/cx5-white-1.jpg', 'assets/cx5-white-2.jpg', 'assets/cx5-white-3.jpg', 'assets/cx5-white-4.jpg'] },
   { id: 'prado-tx', name: 'Toyota Prado TX', daily_rate: 12000, seats: 5, transmission: 'Automatic', fuel: 'Petrol',
     photos: ['assets/tx.jpg'] },
 ];

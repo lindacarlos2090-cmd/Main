@@ -17,14 +17,14 @@ values
   (
     'Mazda CX-5 (Black)', 7000, 5, 'Automatic', 'Petrol',
     'assets/cx5-black-1.jpg',
-    '["assets/cx5-black-1.jpg", "assets/cx5-black-2.jpg", "assets/cx5-black-3.jpg"]'::jsonb,
+    '["assets/cx5-black-1.jpg", "assets/cx5-black-2.jpg", "assets/cx5-black-3.jpg", "assets/cx5-black-4.jpg", "assets/cx5-black-5.jpg", "assets/cx5-black-6.jpg", "assets/cx5-black-7.jpg", "assets/cx5-black-8.jpg", "assets/cx5-black-9.jpg", "assets/cx5-black-10.jpg", "assets/cx5-black-11.jpg", "assets/cx5-black-12.jpg", "assets/cx5-black-13.jpg"]'::jsonb,
     'assets/cx5-black-video.mp4',
     1
   ),
   (
     'Mazda CX-5 (White)', 7000, 5, 'Automatic', 'Petrol',
     'assets/cx5-white-1.jpg',
-    '["assets/cx5-white-1.jpg", "assets/cx5-white-2.jpg", "assets/cx5-white-3.jpg"]'::jsonb,
+    '["assets/cx5-white-1.jpg", "assets/cx5-white-2.jpg", "assets/cx5-white-3.jpg", "assets/cx5-white-4.jpg"]'::jsonb,
     null,
     2
   )
