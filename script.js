@@ -5,15 +5,25 @@ const modal=document.querySelector('#modal');
 const FN = '/.netlify/functions';
 let rates = {};  // filled in once the fleet loads - never hardcoded, so dashboard price changes show up immediately
 
-// Swaps the big preview image/video on a car card when a thumbnail is clicked.
-window.__showCarMedia = function(mainId, thumbEl, src, isVideo){
-  const mediaBox = document.getElementById(mainId).parentElement;
-  mediaBox.innerHTML = isVideo
-    ? `<video id="${mainId}" src="${src}" controls autoplay playsinline></video>`
-    : `<img id="${mainId}" src="${src}" alt="">`;
-  thumbEl.parentElement.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
-  thumbEl.classList.add('active');
+// Each car's gallery (photos, then the video if it has one), keyed by the card's media id.
+const galleries = {};
+
+// Shows item i of a car's gallery in the big preview and highlights its thumbnail.
+window.__showCarMedia = function(mainId, i){
+  const g = galleries[mainId];
+  i = (i + g.length) % g.length;
+  g.current = i;
+  const item = g[i];
+  const box = document.getElementById(mainId);
+  box.querySelector('.media-slot').innerHTML = item.video
+    ? `<video src="${item.src}" controls autoplay playsinline></video>`
+    : `<img src="${item.src}" alt="${g.name} photo ${i+1}" onerror="this.onerror=null;this.src='assets/logo.jpg'">`;
+  box.style.setProperty('--bg', item.video ? 'none' : `url('${item.src}')`);
+  const counter = box.querySelector('.media-count');
+  if(counter) counter.textContent = `${i+1} / ${g.length}`;
+  document.querySelectorAll(`[data-gallery="${mainId}"]`).forEach((t, n) => t.classList.toggle('active', n === i));
 };
+window.__stepCarMedia = function(mainId, step){ window.__showCarMedia(mainId, (galleries[mainId].current || 0) + step); };
 
 // Shown when the fleet database can't be reached, so the cars and their photos
 // still appear. Mirrors supabase/fleet-update.sql.
@@ -60,19 +70,29 @@ async function loadFleet(){
 
     const photos = carPhotos(c);
     const mainId = `main-${c.id}`;
-    const thumbs = photos.map((p, i) =>
-      `<img src="${p}" class="thumb${i===0?' active':''}" data-src="${p}" onclick="window.__showCarMedia('${mainId}', this, '${p}', false)">`
+    const gallery = photos.map(src => ({src}));
+    if(c.video_url) gallery.push({src: c.video_url, video: true});
+    gallery.name = c.name;
+    gallery.current = 0;
+    galleries[mainId] = gallery;
+
+    const thumbs = gallery.map((m, i) => m.video
+      ? `<button type="button" class="thumb video-thumb" data-gallery="${mainId}" onclick="window.__showCarMedia('${mainId}', ${i})" aria-label="Play video">▶</button>`
+      : `<img src="${m.src}" class="thumb${i===0?' active':''}" data-gallery="${mainId}" alt="${c.name} thumbnail ${i+1}" onclick="window.__showCarMedia('${mainId}', ${i})">`
     ).join('');
-    const videoThumb = c.video_url
-      ? `<div class="thumb video-thumb" onclick="window.__showCarMedia('${mainId}', this, '${c.video_url}', true)">▶</div>`
+    const nav = gallery.length > 1
+      ? `<button type="button" class="media-nav prev" onclick="window.__stepCarMedia('${mainId}', -1)" aria-label="Previous photo">‹</button>
+         <button type="button" class="media-nav next" onclick="window.__stepCarMedia('${mainId}', 1)" aria-label="Next photo">›</button>
+         <span class="media-count">1 / ${gallery.length}</span>`
       : '';
 
     grid.innerHTML += `
       <article class="car-card">
-        <div class="car-media">
-          <img id="${mainId}" src="${photos[0]}" alt="${c.name}" onerror="this.onerror=null;this.src='assets/logo.jpg'">
+        <div class="car-media" id="${mainId}" style="--bg:url('${photos[0]}')">
+          <div class="media-slot"><img src="${photos[0]}" alt="${c.name} photo 1" onerror="this.onerror=null;this.src='assets/logo.jpg'"></div>
+          ${nav}
         </div>
-        <div class="thumb-row">${thumbs}${videoThumb}</div>
+        ${gallery.length > 1 ? `<div class="thumb-row">${thumbs}</div>` : ''}
         <div class="car-info">
           <h3>${c.name}</h3>
           <div class="specs"><span>${c.seats} seats</span><span>${c.transmission}</span><span>${c.fuel}</span></div>
